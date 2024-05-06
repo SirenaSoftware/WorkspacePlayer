@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/symbolic/list-add.svg</file>
+    </qresource>
+</RCC>
