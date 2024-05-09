@@ -1,5 +1,5 @@
 #include "BlockViewer.h"
-#include "ui_BlockViewer.h"
+#include <QVBoxLayout>
 #include <QStyleOption>
 #include <QPainter>
 #include <QLineEdit>

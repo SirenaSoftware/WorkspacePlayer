@@ -40,7 +40,7 @@ private slots:
 
 private:
     Ui::WorkspacePlayer *ui;
-    Dialog*m_widget;
+    Dialog*m_widget = nullptr;
 
     void swapFlow(Flow*new_flow);
     void updateClock();
