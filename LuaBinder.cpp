@@ -152,6 +152,12 @@ int l_ui_create_widget(lua_State *L) {
         lua_pop(L, 1);
     }
 
+    // Prevent add access to BlockViewer with ui 
+    if (parentWidget->metaObject()->className()==QString("BlockViewer")) {
+        while (lua_gettop(L) != 0) lua_remove(L,1);
+        return 0;
+    }
+
     lua_pushlightuserdata(L,parentWidget);
     lua_pushcclosure(L,l__index,1);
     lua_setfield (L, component_metatable,"__index");
