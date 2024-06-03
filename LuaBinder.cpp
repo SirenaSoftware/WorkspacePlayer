@@ -152,7 +152,7 @@ int l_ui_create_widget(lua_State *L) {
         lua_pop(L, 1);
     }
 
-    // Prevent add access to BlockViewer with ui 
+    // Prevent add access to BlockViewer with ui
     if (parentWidget->metaObject()->className()==QString("BlockViewer")) {
         while (lua_gettop(L) != 0) lua_remove(L,1);
         return 0;
@@ -181,6 +181,35 @@ int l_ui_create_widget(lua_State *L) {
 
     lua_pushvalue(L,parent);
     return 1;
+}
+
+void l_callback(lua_State *L, const char *objectName,const char *callbackProperty){
+    const int ui = 1;
+    const int wdg = 2;
+    const int callback = 3;
+
+    lua_getglobal(L,"ui");
+    lua_getfield(L,ui,objectName);
+
+    if (!lua_istable(L,wdg)) {
+        while (lua_gettop(L) != 0) lua_remove(L,1);
+        return;
+    }
+
+    lua_getfield(L,wdg,callbackProperty);
+
+    if (lua_isfunction(L,callback)) {
+        lua_pushvalue(L,callback);
+        lua_pushvalue(L,wdg);
+
+        // Cleanup stack, we need only callback and sender on stack
+        while (lua_gettop(L) != 2) lua_remove(L,1);
+
+        lua_call(L,lua_gettop(L)-1,0);
+        return;
+    }
+
+    while (lua_gettop(L) != 0) lua_remove(L,1);
 }
 
 // Containers
